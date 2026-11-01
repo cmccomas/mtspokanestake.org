@@ -1,0 +1,50 @@
+---
+import Base from "../layouts/Base.astro";
+import Timeline from "../components/Timeline.astro";
+import { getSpeaking } from "../lib/data";
+import { formatLong, groupByDate } from "../lib/dates";
+
+const sundays = groupByDate(getSpeaking());
+---
+
+<Base title="Speaking Assignments" description="High council speaking assignments by Sunday and ward.">
+  <h1>Speaking assignments</h1>
+  <p class="lede">High council speakers by Sunday and ward.</p>
+  <Timeline count={sundays.length} empty="No upcoming speaking assignments posted yet." pastLabel="Past assignments">
+    {
+      sundays.map((g) => (
+        <section data-date={g.date}>
+          <p class="date-label">{formatLong(g.date)}</p>
+          <div class="table-wrap">
+            <table class="fixed">
+              <colgroup>
+                <col style="width:30%" />
+                <col style="width:35%" />
+                <col style="width:35%" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>Ward</th>
+                  <th>Speaker</th>
+                  <th>Topic</th>
+                </tr>
+              </thead>
+              <tbody>
+                {g.items.map((a) => (
+                  <tr>
+                    <td>{a.ward}</td>
+                    <td>{a.speakers.join(", ")}</td>
+                    <td>
+                      {a.topic}
+                      {a.notes && <div class="muted">{a.notes}</div>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ))
+    }
+  </Timeline>
+</Base>

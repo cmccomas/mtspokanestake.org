@@ -1,0 +1,354 @@
+---
+import { getSite, getTables } from "../lib/data";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const site = getSite();
+const hasResources = getTables().length > 0;
+const pageTitle = title ? `${title} · ${site.name}` : site.name;
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+const nav = [
+  { href: "/", label: "Home" },
+  { href: "/calendar", label: "Calendar" },
+  { href: "/speaking", label: "Speaking" },
+  { href: "/stake-conference", label: "Stake Conference" },
+  { href: "/high-council", label: "High Council" },
+  ...(hasResources ? [{ href: "/resources", label: "Resources" }] : []),
+];
+const isActive = (href: string) => (href === "/" ? path === "/" : path.startsWith(href));
+const updated = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "America/Los_Angeles",
+}).format(new Date());
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description ?? site.tagline ?? site.name} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/">{site.name}</a>
+        <nav aria-label="Main">
+          <ul>
+            {
+              nav.map((item) => (
+                <li>
+                  <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wrap">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>
+          {site.name}{site.contactEmail && (
+            <>
+              {" · "}
+              <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
+            </>
+          )}
+        </p>
+        <p>
+          This is not an official website of The Church of Jesus Christ of Latter-day Saints. Find
+          meetinghouses and service times at{" "}
+          <a href="https://maps.churchofjesuschrist.org">maps.churchofjesuschrist.org</a>.
+        </p>
+        <p class="muted">Last updated {updated}</p>
+      </div>
+    </footer>
+
+    <script>
+      // Moves dated items that have passed into each timeline's "Past" section, using
+      // today's date in Spokane. Runs in the browser so the site never needs a rebuild
+      // just because a date went by. Without JavaScript everything simply stays listed.
+      const today = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Los_Angeles" }).format(
+        new Date(),
+      );
+      for (const timeline of document.querySelectorAll<HTMLElement>("[data-timeline]")) {
+        const upcoming = timeline.querySelector<HTMLElement>("[data-upcoming]");
+        const pastList = timeline.querySelector<HTMLElement>("[data-past-list]");
+        const past = timeline.querySelector<HTMLElement>("[data-past]");
+        const empty = timeline.querySelector<HTMLElement>("[data-empty]");
+        if (!upcoming) continue;
+        for (const item of [...upcoming.querySelectorAll<HTMLElement>(":scope > [data-date]")]) {
+          const end = item.dataset.end || item.dataset.date!;
+          if (end < today) {
+            if (pastList) pastList.prepend(item);
+            else item.remove();
+          }
+        }
+        const remaining = [...upcoming.querySelectorAll<HTMLElement>(":scope > [data-date]")];
+        const limit = Number(timeline.dataset.limit || 0);
+        if (limit) remaining.slice(limit).forEach((el) => el.remove());
+        if (empty) empty.hidden = remaining.length > 0;
+        if (past && pastList) past.hidden = pastList.children.length === 0;
+      }
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --bg: #faf8f5;
+    --surface: #ffffff;
+    --ink: #2c2c2c;
+    --muted: #5f6460;
+    --line: #e4e0d8;
+    --accent: #1a4d2e;
+    --accent-soft: #f0f7f2;
+    --gold: #b8860b;
+    --gold-soft: #fdf9ef;
+    --radius: 10px;
+    --serif: "Playfair Display", Georgia, serif;
+    --sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.6 var(--sans);
+  }
+  a {
+    color: var(--accent);
+  }
+  .wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  .skip {
+    position: absolute;
+    left: -999px;
+  }
+  .skip:focus {
+    left: 16px;
+    top: 8px;
+    background: var(--surface);
+    padding: 8px 12px;
+    z-index: 10;
+  }
+
+  .site-header {
+    background: var(--accent);
+    color: #fff;
+  }
+  .site-header .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 24px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  .brand {
+    color: #fff;
+    text-decoration: none;
+    font: 700 1.3rem/1.2 var(--serif);
+  }
+  .site-header ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+  }
+  .site-header nav a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.93rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+    opacity: 0.88;
+  }
+  .site-header nav a:hover,
+  .site-header nav a[aria-current="page"] {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  main.wrap {
+    padding-top: 32px;
+    padding-bottom: 56px;
+    min-height: 60vh;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--serif);
+    line-height: 1.25;
+    color: var(--accent);
+  }
+  h1 {
+    font-size: clamp(1.7rem, 4vw, 2.3rem);
+    margin: 0 0 8px;
+  }
+  h2 {
+    font-size: 1.35rem;
+    margin: 32px 0 12px;
+  }
+  h3 {
+    font-size: 1.1rem;
+    margin: 0 0 8px;
+  }
+  .lede {
+    color: var(--muted);
+    margin: 0 0 24px;
+    max-width: 65ch;
+  }
+  .muted {
+    color: var(--muted);
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+  }
+  .card p {
+    margin: 0 0 6px;
+  }
+  .card > :last-child,
+  .card > section > :last-child {
+    margin-bottom: 0;
+  }
+  .stack {
+    display: grid;
+    gap: 12px;
+  }
+  .grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  .date-label {
+    font-weight: 600;
+    color: var(--gold);
+    font-size: 0.9rem;
+    letter-spacing: 0.01em;
+    margin: 0 0 4px;
+  }
+  .announcement {
+    background: var(--gold-soft);
+    border: 1px solid #f4dfa4;
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin: 0 0 24px;
+  }
+  .empty {
+    color: var(--muted);
+    font-style: italic;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0;
+    margin: 6px 0 0;
+    list-style: none;
+  }
+  .tags li {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 0.85rem;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.95rem;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  table.fixed {
+    table-layout: fixed;
+  }
+  table.fixed th {
+    white-space: normal;
+  }
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  details.past {
+    margin-top: 28px;
+  }
+  details.past summary {
+    cursor: pointer;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  details.past > div {
+    margin-top: 12px;
+    opacity: 0.8;
+  }
+
+  .site-footer {
+    border-top: 1px solid var(--line);
+    font-size: 0.88rem;
+    color: var(--muted);
+    padding: 24px 0 32px;
+  }
+  .site-footer p {
+    margin: 0 0 6px;
+  }
+</style>

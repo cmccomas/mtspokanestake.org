@@ -1,0 +1,122 @@
+---
+import Base from "../layouts/Base.astro";
+import Timeline from "../components/Timeline.astro";
+import { getSite, getEvents, getSpeaking, getConferences, getWards } from "../lib/data";
+import { formatLong, formatRange, groupByDate } from "../lib/dates";
+
+const site = getSite();
+const events = getEvents();
+const speakingSundays = groupByDate(getSpeaking());
+const conferences = getConferences();
+const wards = getWards();
+---
+
+<Base>
+  <h1>{site.name}</h1>
+  {site.tagline && <p class="lede">{site.tagline}</p>}
+  {site.announcement && <div class="announcement">{site.announcement}</div>}
+
+  <h2>Coming up</h2>
+  <Timeline count={events.length} empty="No upcoming events posted yet." limit={4} showPast={false}>
+    {
+      events.map((e) => (
+        <article class="card" data-date={e.date} data-end={e.endDate}>
+          <p class="date-label">
+            {formatRange(e.date, e.endDate)}
+            {e.time && ` · ${e.time}`}
+          </p>
+          <h3>{e.title}</h3>
+          {e.location && <p class="muted">{e.location}</p>}
+        </article>
+      ))
+    }
+  </Timeline>
+  {events.length > 0 && <p><a href="/calendar">Full calendar →</a></p>}
+
+  <div class="grid" style="margin-top: 32px">
+    <section class="card">
+      <h3>High council speakers</h3>
+      <Timeline count={speakingSundays.length} empty="No speaking assignments posted yet." limit={1} showPast={false}>
+        {
+          speakingSundays.map((g) => (
+            <div data-date={g.date}>
+              <p class="date-label">{formatLong(g.date)}</p>
+              <ul>
+                {g.items.map((a) => (
+                  <li>
+                    {a.ward}: {a.speakers.join(", ")}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </Timeline>
+      <p><a href="/speaking">All speaking assignments →</a></p>
+    </section>
+
+    <section class="card">
+      <h3>Stake conference</h3>
+      <Timeline count={conferences.length} empty="Next stake conference not posted yet." limit={1} showPast={false}>
+        {
+          conferences.map((c) => (
+            <div data-date={c.date} data-end={c.endDate}>
+              <p class="date-label">{formatRange(c.date, c.endDate)}</p>
+              <p style="margin:0">{c.name}</p>
+              {c.theme && <p class="muted" style="margin:0">{c.theme}</p>}
+            </div>
+          ))
+        }
+      </Timeline>
+      <p><a href="/stake-conference">Sessions and assignments →</a></p>
+    </section>
+  </div>
+
+  {
+    wards.length > 0 && (
+      <>
+        <h2>Wards</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Ward</th>
+                <th>Sacrament meeting</th>
+                <th>Building</th>
+              </tr>
+            </thead>
+            <tbody>
+              {wards.map((w) => (
+                <tr>
+                  <td>{w.name}</td>
+                  <td>{w.meetingTime}</td>
+                  <td>
+                    {w.building}
+                    {w.address && <div class="muted">{w.address}</div>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </>
+    )
+  }
+
+  {
+    site.stakeCenter?.address && (
+      <>
+        <h2>Stake center</h2>
+        <p>
+          {site.stakeCenter.name && (
+            <>
+              {site.stakeCenter.name}
+              <br />
+            </>
+          )}
+          {site.stakeCenter.address}
+        </p>
+      </>
+    )
+  }
+</Base>

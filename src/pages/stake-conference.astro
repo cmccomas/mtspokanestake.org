@@ -1,0 +1,54 @@
+---
+import Base from "../layouts/Base.astro";
+import Timeline from "../components/Timeline.astro";
+import { getConferences } from "../lib/data";
+import { formatLong, formatRange } from "../lib/dates";
+
+const conferences = getConferences();
+---
+
+<Base title="Stake Conference" description="Stake conference sessions and assignments.">
+  <h1>Stake conference</h1>
+  <p class="lede">Sessions, speakers, prayers and music assignments.</p>
+  <Timeline count={conferences.length} empty="The next stake conference hasn't been posted yet." pastLabel="Past conferences">
+    {
+      conferences.map((c) => (
+        <article class="card" data-date={c.date} data-end={c.endDate}>
+          <p class="date-label">{formatRange(c.date, c.endDate)}</p>
+          <h2 style="margin-top:0">{c.name}</h2>
+          {c.theme && <p style="margin:0 0 4px"><em>{c.theme}</em></p>}
+          {c.location && <p class="muted" style="margin:0">{c.location}</p>}
+          {c.notes && <p>{c.notes}</p>}
+          {c.sessions.map((s) => (
+            <section style="margin-top:20px">
+              <h3>{s.name}</h3>
+              <p class="muted" style="margin:0 0 8px">
+                {[s.date && formatLong(s.date), s.time, s.location].filter(Boolean).join(" · ")}
+              </p>
+              {s.assignments.length > 0 ? (
+                <div class="table-wrap">
+                  <table class="fixed">
+                    <colgroup>
+                      <col style="width:40%" />
+                      <col />
+                    </colgroup>
+                    <tbody>
+                      {s.assignments.map((a) => (
+                        <tr>
+                          <th scope="row">{a.role}</th>
+                          <td>{a.name}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p class="empty">Assignments to come.</p>
+              )}
+            </section>
+          ))}
+        </article>
+      ))
+    }
+  </Timeline>
+</Base>

@@ -1,0 +1,7 @@
+# Wards in the stake, shown on the home page.
+# Example:
+# - name: Greenbluff Ward
+#   meetingTime: "9:00 AM"
+#   building: Stake Center
+#   address: 123 Example Rd, Spokane, WA
+[]

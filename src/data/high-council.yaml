@@ -1,0 +1,7 @@
+# High councilors, their assigned wards and their stewardships.
+# Example:
+# - name: Brother John Smith
+#   wards: [Greenbluff Ward, West Valley Ward]
+#   stewardships: [Young Men, Stake Building Coordinator]
+#   notes: Also serves on the stake missionary committee
+[]

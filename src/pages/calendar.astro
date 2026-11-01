@@ -1,0 +1,28 @@
+---
+import Base from "../layouts/Base.astro";
+import Timeline from "../components/Timeline.astro";
+import { getEvents } from "../lib/data";
+import { formatRange } from "../lib/dates";
+
+const events = getEvents();
+---
+
+<Base title="Calendar" description="Upcoming stake events and activities.">
+  <h1>Calendar</h1>
+  <p class="lede">Stake events and activities.</p>
+  <Timeline count={events.length} empty="No upcoming events posted yet." pastLabel="Past events">
+    {
+      events.map((e) => (
+        <article class="card" data-date={e.date} data-end={e.endDate}>
+          <p class="date-label">
+            {formatRange(e.date, e.endDate)}
+            {e.time && ` · ${e.time}`}
+          </p>
+          <h3>{e.title}</h3>
+          {e.location && <p class="muted" style="margin:0">{e.location}</p>}
+          {e.details && <p style="margin:6px 0 0">{e.details}</p>}
+        </article>
+      ))
+    }
+  </Timeline>
+</Base>

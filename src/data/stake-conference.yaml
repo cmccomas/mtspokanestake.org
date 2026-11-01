@@ -1,0 +1,23 @@
+# Stake conferences. Each conference has sessions; each session has a list of
+# role/name assignments (presiding, conducting, prayers, speakers, music, etc.).
+# Past conferences move to "Past conferences" on their own.
+# Example:
+# - name: Fall 2026 Stake Conference
+#   date: 2026-11-14
+#   endDate: 2026-11-15
+#   theme: "Come unto Christ"
+#   location: Stake Center
+#   sessions:
+#     - name: Adult Session
+#       date: 2026-11-14
+#       time: "7:00 PM"
+#       assignments:
+#         - role: Presiding
+#           name: President Example
+#         - role: Invocation
+#           name: Sister Jane Doe
+#     - name: General Session
+#       date: 2026-11-15
+#       time: "10:00 AM"
+#       assignments: []
+[]

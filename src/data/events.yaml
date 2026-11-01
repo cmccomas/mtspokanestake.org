@@ -1,0 +1,13 @@
+# Stake calendar. Dates are YYYY-MM-DD. Order doesn't matter; the site sorts by date.
+# Past events move to "Past events" on their own.
+# Example:
+# - date: 2026-11-21
+#   title: Stake Youth Dance
+#   time: "7:00–9:30 PM"
+#   location: Stake Center cultural hall
+#   details: Ages 14–18. Dress standards apply.
+# Multi-day events add endDate:
+# - date: 2027-06-21
+#   endDate: 2027-06-24
+#   title: Youth Conference
+[]

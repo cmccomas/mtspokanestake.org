@@ -1,0 +1,9 @@
+# High council speaking assignments. One entry per ward per Sunday.
+# Dates are YYYY-MM-DD. speakers is a list, even for one person.
+# Example:
+# - date: 2026-11-08
+#   ward: Greenbluff Ward
+#   speakers: [Brother John Smith]
+#   topic: Gratitude
+#   notes: Companion assignment with the Elders Quorum president
+[]
