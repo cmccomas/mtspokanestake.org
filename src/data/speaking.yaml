@@ -34,10 +34,10 @@
   speakers: [President Barton]
 - date: 2027-01-24
   ward: Spokane River YSA
-  speakers: [Brother Brian McKell, Sister Borders]
+  speakers: [Brother Brian McKell, Sister Rachel Borders]
 - date: 2027-01-24
   ward: West Valley Ward
-  speakers: [Brother Clint Andersen, Sister Leppert]
+  speakers: [Brother Clint Andersen, Sister Camille Leppert]
 
 # 2027-02-28
 - date: 2027-02-28
@@ -60,7 +60,7 @@
   speakers: [Brother Brandon Michaelsen]
 - date: 2027-02-28
   ward: Spokane River YSA
-  speakers: [Brother Regan Hardy, Sister Ghramm]
+  speakers: [Brother Regan Hardy, Sister Jill Ghramm]
 - date: 2027-02-28
   ward: West Valley Ward
   speakers: [Brother Mark Millward]
@@ -68,7 +68,7 @@
 # 2027-03-21
 - date: 2027-03-21
   ward: Beacon Hill Ward
-  speakers: [Brother Ben Ward, Sister Leppert]
+  speakers: [Brother Ben Ward, Sister Camille Leppert]
 - date: 2027-03-21
   ward: Foothills Ward
   speakers: [Brother Eskiel Moreang]
@@ -100,13 +100,13 @@
   speakers: [President McComas]
 - date: 2027-06-27
   ward: Friendship Park Ward
-  speakers: [Brother Brandon Michaelsen, Sister Ghramm]
+  speakers: [Brother Brandon Michaelsen, Sister Jill Ghramm]
 - date: 2027-06-27
   ward: Greenbluff Ward
   speakers: [Brother Brian McKell]
 - date: 2027-06-27
   ward: Morgan Acres Ward
-  speakers: [Brother Mark Millward, Sister Borders]
+  speakers: [Brother Mark Millward, Sister Rachel Borders]
 - date: 2027-06-27
   ward: Peone Creek Ward
   speakers: [Brother Regan Hardy]
@@ -132,7 +132,7 @@
   speakers: [President McComas]
 - date: 2027-07-25
   ward: Morgan Acres Ward
-  speakers: [Brother Josh Hunt, Sister Leppert]
+  speakers: [Brother Josh Hunt, Sister Camille Leppert]
 - date: 2027-07-25
   ward: Peone Creek Ward
   speakers: [Brother Ben Ward]
@@ -155,13 +155,13 @@
   speakers: [President Barton]
 - date: 2027-08-22
   ward: Greenbluff Ward
-  speakers: [Brother Jeff Howell, Sister Ghramm]
+  speakers: [Brother Jeff Howell, Sister Jill Ghramm]
 - date: 2027-08-22
   ward: Morgan Acres Ward
   speakers: [Brother Brandon Michaelsen]
 - date: 2027-08-22
   ward: Peone Creek Ward
-  speakers: [Brother Eskiel Moreang, Sister Borders]
+  speakers: [Brother Eskiel Moreang, Sister Rachel Borders]
 - date: 2027-08-22
   ward: Spokane River YSA
   speakers: [President McComas]
@@ -181,7 +181,7 @@
   speakers: [Brother Jeff Howell]
 - date: 2027-09-26
   ward: Greenbluff Ward
-  speakers: [Brother Bendi Elanzo, Sister Leppert]
+  speakers: [Brother Bendi Elanzo, Sister Camille Leppert]
 - date: 2027-09-26
   ward: Morgan Acres Ward
   speakers: [Brother Regan Hardy]
@@ -204,7 +204,7 @@
   speakers: [Brother Brian McKell]
 - date: 2027-11-21
   ward: Friendship Park Ward
-  speakers: [Brother Tyson Frodin, Sister Borders]
+  speakers: [Brother Tyson Frodin, Sister Rachel Borders]
 - date: 2027-11-21
   ward: Greenbluff Ward
   speakers: [President Barton]
@@ -213,7 +213,7 @@
   speakers: [President McComas]
 - date: 2027-11-21
   ward: Peone Creek Ward
-  speakers: [Brother John Leppert, Sister Ghramm]
+  speakers: [Brother John Leppert, Sister Jill Ghramm]
 - date: 2027-11-21
   ward: Spokane River YSA
   speakers: [Brother Clint Andersen]
