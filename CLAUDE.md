@@ -64,9 +64,10 @@ build a new page type if a table really can't show it, and check with Jeff first
 5. Get it onto `main`. Pushing to `main` publishes the site automatically through Vercel in
    about a minute.
    - If you can push to `main`, do that.
-   - If you work on a branch (cloud sessions do), open a pull request, and give Jeff the
-     link and tell him to click the green **Merge pull request** button. Vercel posts a
-     preview link on the pull request he can look at first.
+   - If you work on a branch (cloud sessions do), open a pull request and merge it
+     yourself once the build passes. Jeff has asked that every change he makes go live
+     right away, without waiting for him to review or merge. If you can't merge, give
+     him the link and tell him to click the green **Merge pull request** button.
 6. Tell Jeff in one or two sentences what changed and which page to look at, e.g.
    "December's speakers are up at mtspokanestake.org/speaking."
 
