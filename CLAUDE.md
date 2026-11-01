@@ -34,6 +34,7 @@ Only edit these files unless Jeff asks for something the files can't do.
 | Wards and meeting times | `src/data/wards.yaml` | home |
 | Calendar, events, activities | `src/data/events.yaml` | /calendar, home |
 | High council speaking assignments | `src/data/speaking.yaml` | /speaking, home |
+| Ward conferences | `src/data/events.yaml` (title "<Ward> Ward Conference") | /ward-conferences, /calendar |
 | Stake conference program and assignments | `src/data/stake-conference.yaml` | /stake-conference, home |
 | High council wards and stewardships | `src/data/high-council.yaml` | /high-council |
 | Any other spreadsheet-style list | `src/data/tables/<name>.yaml` | /resources/<name> |

@@ -1,0 +1,34 @@
+---
+import Base from "../layouts/Base.astro";
+import Timeline from "../components/Timeline.astro";
+import { getEvents } from "../lib/data";
+import { formatLong } from "../lib/dates";
+
+// Ward conferences come from the calendar (events.yaml): any event whose title
+// ends in "Conference" and names a ward (contains "Ward" or "YSA").
+const conferences = getEvents().filter(
+  (e) => /conference$/i.test(e.title) && /\b(ward|ysa)\b/i.test(e.title),
+);
+---
+
+<Base title="Ward Conferences" description="Ward conference schedule for each ward in the stake.">
+  <h1>Ward conferences</h1>
+  <p class="lede">
+    The stake presidency and stake council attend each ward conference. A ward has no stake
+    speaker in the month of its ward conference.
+  </p>
+  <Timeline count={conferences.length} empty="No upcoming ward conferences posted yet." showPast={false}>
+    {
+      conferences.map((e) => (
+        <article class="card" data-date={e.date} data-end={e.endDate}>
+          <p class="date-label">
+            {formatLong(e.date)}
+            {e.time && ` · ${e.time}`}
+          </p>
+          <h3 style="margin-bottom:0">{e.title.replace(/ Conference$/i, "")}</h3>
+          {e.location && <p class="muted" style="margin:0">{e.location}</p>}
+        </article>
+      ))
+    }
+  </Timeline>
+</Base>
