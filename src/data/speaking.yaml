@@ -11,7 +11,7 @@
 # Past Sundays drop off the /speaking page on their own the day after.
 # March is the 21st because the 28th is Easter.
 # Each month one ward holds its ward conference (see events.yaml) and gets no
-# stake speaker that month. Each high councilor speaks 4 times, never in his
+# stake speaker that month; it is listed with speakers: [] and a note. Each high councilor speaks 4 times, never in his
 # home ward or the same ward twice. President McComas and President Barton each
 # speak 4 times and between them cover all 8 wards.
 
@@ -19,6 +19,10 @@
 - date: 2027-01-24
   ward: Beacon Hill Ward
   speakers: [Brother Ben Ward]
+- date: 2027-01-24
+  ward: Foothills Ward
+  speakers: []
+  notes: Ward conference January 17. No stake speaker this month.
 - date: 2027-01-24
   ward: Friendship Park Ward
   speakers: [Brother Regan Hardy]
@@ -58,6 +62,10 @@
   ward: Peone Creek Ward
   speakers: [President Barton]
 - date: 2027-02-28
+  ward: Spokane River YSA
+  speakers: []
+  notes: Ward conference February 21. No stake speaker this month.
+- date: 2027-02-28
   ward: West Valley Ward
   speakers: [Brother Regan Hardy]
 
@@ -74,6 +82,10 @@
 - date: 2027-03-21
   ward: Greenbluff Ward
   speakers: [Brother Bendi Elanzo]
+- date: 2027-03-21
+  ward: Morgan Acres Ward
+  speakers: []
+  notes: Ward conference March 14. No stake speaker this month.
 - date: 2027-03-21
   ward: Peone Creek Ward
   speakers: [Brother Eskiel Moreang]
@@ -94,6 +106,10 @@
 - date: 2027-06-27
   ward: Friendship Park Ward
   speakers: [President Barton]
+- date: 2027-06-27
+  ward: Greenbluff Ward
+  speakers: []
+  notes: Ward conference June 13. No stake speaker this month.
 - date: 2027-06-27
   ward: Morgan Acres Ward
   speakers: [Brother Clint Andersen]
@@ -124,6 +140,10 @@
   ward: Morgan Acres Ward
   speakers: [Brother Brian McKell]
 - date: 2027-07-25
+  ward: Peone Creek Ward
+  speakers: []
+  notes: Ward conference July 18. No stake speaker this month.
+- date: 2027-07-25
   ward: Spokane River YSA
   speakers: [Brother Mark Millward]
 - date: 2027-07-25
@@ -131,6 +151,10 @@
   speakers: [Brother Ben Ward, Sister Camille Leppert]
 
 # 2027-08-22
+- date: 2027-08-22
+  ward: Beacon Hill Ward
+  speakers: []
+  notes: Ward conference August 15. No stake speaker this month.
 - date: 2027-08-22
   ward: Foothills Ward
   speakers: [Brother Clint Andersen]
@@ -175,6 +199,10 @@
 - date: 2027-09-26
   ward: Spokane River YSA
   speakers: [Brother Josh Hunt, Sister Camille Leppert]
+- date: 2027-09-26
+  ward: West Valley Ward
+  speakers: []
+  notes: Ward conference September 19. No stake speaker this month.
 
 # 2027-11-21
 - date: 2027-11-21
@@ -183,6 +211,10 @@
 - date: 2027-11-21
   ward: Foothills Ward
   speakers: [Brother Brian McKell, Sister Jill Ghramm]
+- date: 2027-11-21
+  ward: Friendship Park Ward
+  speakers: []
+  notes: Ward conference November 14. No stake speaker this month.
 - date: 2027-11-21
   ward: Greenbluff Ward
   speakers: [Brother John Leppert, Sister Rachel Borders]

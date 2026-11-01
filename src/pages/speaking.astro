@@ -32,8 +32,14 @@ const sundays = groupByDate(getSpeaking());
                   <tr>
                     <td>{a.ward}</td>
                     <td>
-                      {a.speakers.join(", ")}
-                      {a.notes && <div class="muted">{a.notes}</div>}
+                      {a.speakers.length > 0 ? (
+                        <>
+                          {a.speakers.join(", ")}
+                          {a.notes && <div class="muted">{a.notes}</div>}
+                        </>
+                      ) : (
+                        <em>{a.notes}</em>
+                      )}
                     </td>
                   </tr>
                 ))}

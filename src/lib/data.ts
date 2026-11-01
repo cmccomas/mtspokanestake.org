@@ -48,9 +48,13 @@ const speakingSchema = z.array(
   z.object({
     date: isoDate,
     ward: text,
-    speakers: z.array(text).min(1),
+    // Leave speakers empty ([]) only for a ward with no stake speaker that Sunday
+    // (e.g. its ward conference month); notes then says why.
+    speakers: z.array(text).default([]),
     topic: optionalText,
     notes: optionalText,
+  }).refine((a) => a.speakers.length > 0 || a.notes, {
+    message: "needs at least one speaker, or notes saying why there is none (e.g. ward conference)",
   }),
 );
 
