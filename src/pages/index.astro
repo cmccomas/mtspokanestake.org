@@ -53,7 +53,7 @@ const wards = getWards();
               <ul>
                 {g.items.map((a) => (
                   <li>
-                    {a.ward}: {a.speakers.join(", ")}
+                    {a.ward}: {a.speakers.length > 0 ? a.speakers.join(", ") : <em>{a.notes}</em>}
                   </li>
                 ))}
               </ul>
