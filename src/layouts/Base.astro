@@ -55,7 +55,11 @@ const updated = new Intl.DateTimeFormat("en-US", {
             {
               nav.map((item) => (
                 <li>
-                  <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>
+                  <a
+                    href={item.href}
+                    aria-current={isActive(item.href) ? "page" : undefined}
+                    {...(item.href.startsWith("http") && { target: "_blank", rel: "noopener" })}
+                  >
                     {item.label}
                   </a>
                 </li>
