@@ -10,4 +10,39 @@
 # - date: 2027-06-21
 #   endDate: 2027-06-24
 #   title: Youth Conference
-[]
+
+# 2027 ward conferences, on the 3rd Sunday. March and November use the 2nd Sunday
+# because the 3rd is the stake speaking Sunday; June uses the 2nd because the 3rd
+# is Father's Day.
+- date: 2027-01-17
+  title: Foothills Ward Conference
+  location: Foothills Building
+  details: Stake presidency and stake council attend. No stake speaker in this ward this month.
+- date: 2027-02-21
+  title: Spokane River YSA Conference
+  location: Indiana Building
+  details: Stake presidency and stake council attend. No stake speaker in this ward this month.
+- date: 2027-03-14
+  title: Morgan Acres Ward Conference
+  location: Sitka Building
+  details: Stake presidency and stake council attend. No stake speaker in this ward this month.
+- date: 2027-06-13
+  title: Greenbluff Ward Conference
+  location: Greenbluff Building
+  details: Stake presidency and stake council attend. No stake speaker in this ward this month.
+- date: 2027-07-18
+  title: Peone Creek Ward Conference
+  location: Greenbluff Building
+  details: Stake presidency and stake council attend. No stake speaker in this ward this month.
+- date: 2027-08-15
+  title: Beacon Hill Ward Conference
+  location: Sitka Building
+  details: Stake presidency and stake council attend. No stake speaker in this ward this month.
+- date: 2027-09-19
+  title: West Valley Ward Conference
+  location: Foothills Building
+  details: Stake presidency and stake council attend. No stake speaker in this ward this month.
+- date: 2027-11-14
+  title: Friendship Park Ward Conference
+  location: Sitka Building
+  details: Stake presidency and stake council attend. No stake speaker in this ward this month.
