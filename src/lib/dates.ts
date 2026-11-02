@@ -21,6 +21,13 @@ export const formatLong = (iso: string) => long.format(toDate(iso));
 export const formatShort = (iso: string) => short.format(toDate(iso));
 export const formatMonth = (iso: string) => month.format(toDate(iso));
 
+// Pieces for a calendar-style date chip: "JAN" over "17".
+const chipMonth = new Intl.DateTimeFormat("en-US", { month: "short", timeZone: "UTC" });
+export const chipParts = (iso: string) => ({
+  month: chipMonth.format(toDate(iso)),
+  day: String(toDate(iso).getUTCDate()),
+});
+
 export function formatRange(start: string, end?: string) {
   return end && end !== start ? `${formatShort(start)} – ${formatShort(end)}` : formatLong(start);
 }

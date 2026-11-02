@@ -6,15 +6,17 @@ const tables = getTables();
 ---
 
 <Base title="Resources" description="Stake schedules, rosters and lists.">
-  <h1>Resources</h1>
-  <p class="lede">Schedules, rosters and other lists.</p>
+  <div class="page-head">
+    <h1>Resources</h1>
+    <p class="lede">Schedules, rosters and other lists.</p>
+  </div>
   {
     tables.length === 0 ? (
       <p class="empty">Nothing posted yet.</p>
     ) : (
       <div class="grid">
         {tables.map((t) => (
-          <a class="card" href={`/resources/${t.slug}`} style="text-decoration:none;color:inherit">
+          <a class="panel" href={`/resources/${t.slug}`} style="text-decoration:none;color:inherit">
             <h3>{t.title}</h3>
             {t.description && <p class="muted" style="margin:0">{t.description}</p>}
           </a>

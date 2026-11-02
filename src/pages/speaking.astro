@@ -8,46 +8,59 @@ const sundays = groupByDate(getSpeaking());
 ---
 
 <Base title="Speaking Assignments" description="High council speaking assignments by Sunday and ward.">
-  <h1>Speaking assignments</h1>
-  <p class="lede">High council speakers by Sunday and ward.</p>
-  <Timeline count={sundays.length} empty="No upcoming speaking assignments posted yet." showPast={false}>
+  <div class="page-head">
+    <h1>Speaking assignments</h1>
+    <p class="lede">High council speakers by Sunday and ward.</p>
+  </div>
+  <Timeline
+    count={sundays.length}
+    empty="No upcoming speaking assignments posted yet."
+    showPast={false}
+    list="stack-lg"
+  >
     {
       sundays.map((g) => (
-        <section data-date={g.date}>
-          <p class="date-label">{formatLong(g.date)}</p>
-          <div class="table-wrap">
-            <table class="fixed">
-              <colgroup>
-                <col style="width:40%" />
-                <col style="width:60%" />
-              </colgroup>
-              <thead>
-                <tr>
-                  <th>Ward</th>
-                  <th>Speaker</th>
-                </tr>
-              </thead>
-              <tbody>
-                {g.items.map((a) => (
-                  <tr>
-                    <td>{a.ward}</td>
-                    <td>
-                      {a.speakers.length > 0 ? (
-                        <>
-                          {a.speakers.join(", ")}
-                          {a.notes && <div class="muted">{a.notes}</div>}
-                        </>
-                      ) : (
-                        <em>{a.notes}</em>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+        <section data-date={g.date} aria-label={formatLong(g.date)}>
+          <h2 class="sunday-head">
+            {formatLong(g.date)}
+            <span class="count">
+              {g.items.length} {g.items.length === 1 ? "ward" : "wards"}
+            </span>
+          </h2>
+          <ul class="rows">
+            {g.items.map((a) => (
+              <li>
+                <span class="term">{a.ward}</span>
+                <span class="detail">
+                  {a.speakers.length > 0 ? (
+                    <>
+                      {a.speakers.join(", ")}
+                      {a.notes && <span class="note">{a.notes}</span>}
+                    </>
+                  ) : (
+                    <em class="muted">{a.notes}</em>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
         </section>
       ))
     }
   </Timeline>
 </Base>
+
+<style>
+  .sunday-head {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--bg);
+    padding: 10px 0;
+    font-size: 1.3rem;
+  }
+</style>

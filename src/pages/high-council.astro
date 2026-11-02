@@ -6,32 +6,69 @@ const councilors = getHighCouncil();
 ---
 
 <Base title="High Council" description="High council ward assignments and stewardships.">
-  <h1>High council</h1>
-  <p class="lede">Ward assignments and stewardships for each high councilor.</p>
+  <div class="page-head">
+    <h1>High council</h1>
+    <p class="lede">Ward assignments and stewardships for each high councilor.</p>
+  </div>
   {
     councilors.length === 0 ? (
       <p class="empty">High council assignments haven't been posted yet.</p>
     ) : (
       <div class="grid">
         {councilors.map((c) => (
-          <article class="card">
+          <article class="panel">
             <h3>{c.name}</h3>
             {c.wards.length > 0 && (
               <>
-                <p class="muted" style="margin:0;font-size:.85rem">Wards</p>
-                <ul class="tags">{c.wards.map((w) => <li>{w}</li>)}</ul>
+                <p class="label">Wards</p>
+                <ul class="tags">
+                  {c.wards.map((w) => (
+                    <li>{w}</li>
+                  ))}
+                </ul>
               </>
             )}
             {c.stewardships.length > 0 && (
               <>
-                <p class="muted" style="margin:12px 0 0;font-size:.85rem">Stewardships</p>
-                <ul style="margin:4px 0 0;padding-left:20px">{c.stewardships.map((s) => <li>{s}</li>)}</ul>
+                <p class="label">Stewardships</p>
+                <ul class="plain">
+                  {c.stewardships.map((s) => (
+                    <li>{s}</li>
+                  ))}
+                </ul>
               </>
             )}
-            {c.notes && <p class="muted" style="margin:10px 0 0">{c.notes}</p>}
+            {c.notes && <p class="muted" style="margin:12px 0 0">{c.notes}</p>}
           </article>
         ))}
       </div>
     )
   }
 </Base>
+
+<style>
+  .label {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin: 14px 0 6px;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .tags li {
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    border-radius: 999px;
+    padding: 3px 11px;
+    font-size: 0.88rem;
+  }
+  .plain {
+    margin: 0;
+    padding-left: 18px;
+  }
+</style>

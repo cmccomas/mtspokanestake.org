@@ -8,47 +8,74 @@ const conferences = getConferences();
 ---
 
 <Base title="Stake Conference" description="Stake conference sessions and assignments.">
-  <h1>Stake conference</h1>
-  <p class="lede">Sessions, speakers, prayers and music assignments.</p>
-  <Timeline count={conferences.length} empty="The next stake conference hasn't been posted yet." pastLabel="Past conferences">
+  <div class="page-head">
+    <h1>Stake conference</h1>
+    <p class="lede">Sessions, speakers, prayers and music assignments.</p>
+  </div>
+  <Timeline
+    count={conferences.length}
+    empty="The next stake conference hasn't been posted yet. Check back closer to the date."
+    pastLabel="Past conferences"
+    list="stack-lg"
+  >
     {
       conferences.map((c) => (
-        <article class="card" data-date={c.date} data-end={c.endDate}>
+        <article data-date={c.date} data-end={c.endDate}>
           <p class="date-label">{formatRange(c.date, c.endDate)}</p>
-          <h2 style="margin-top:0">{c.name}</h2>
-          {c.theme && <p style="margin:0 0 4px"><em>{c.theme}</em></p>}
-          {c.location && <p class="muted" style="margin:0">{c.location}</p>}
+          <h2>{c.name}</h2>
+          {c.theme && <p class="lede" style="margin-top:6px"><em>{c.theme}</em></p>}
+          {c.location && <p class="muted" style="margin:4px 0 0">{c.location}</p>}
           {c.notes && <p>{c.notes}</p>}
-          {c.sessions.map((s) => (
-            <section style="margin-top:20px">
-              <h3>{s.name}</h3>
-              <p class="muted" style="margin:0 0 8px">
-                {[s.date && formatLong(s.date), s.time, s.location].filter(Boolean).join(" · ")}
-              </p>
-              {s.assignments.length > 0 ? (
-                <div class="table-wrap">
-                  <table class="fixed">
-                    <colgroup>
-                      <col style="width:40%" />
-                      <col />
-                    </colgroup>
-                    <tbody>
-                      {s.assignments.map((a) => (
-                        <tr>
-                          <th scope="row">{a.role}</th>
-                          <td>{a.name}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <p class="empty">Assignments to come.</p>
-              )}
-            </section>
-          ))}
+          <div class="stack" style="margin-top:24px">
+            {c.sessions.map((s) => (
+              <section class="panel">
+                <h3>{s.name}</h3>
+                <p class="muted" style="margin:2px 0 12px">
+                  {[s.date && formatLong(s.date), s.time, s.location].filter(Boolean).join(" · ")}
+                </p>
+                {s.assignments.length > 0 ? (
+                  <dl class="rows assignments">
+                    {s.assignments.map((a) => (
+                      <div>
+                        <dt class="term">{a.role}</dt>
+                        <dd class="detail">{a.name}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                ) : (
+                  <p class="empty">Assignments to come.</p>
+                )}
+              </section>
+            ))}
+          </div>
         </article>
       ))
     }
   </Timeline>
 </Base>
+
+<style>
+  .assignments {
+    margin: 0;
+  }
+  .assignments > div {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: 4px 20px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .assignments > div:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  .assignments dd {
+    margin: 0;
+  }
+  @media (max-width: 520px) {
+    .assignments > div {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+  }
+</style>

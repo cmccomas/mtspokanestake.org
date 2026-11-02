@@ -2,7 +2,7 @@
 import Base from "../layouts/Base.astro";
 import Timeline from "../components/Timeline.astro";
 import { getSite, getEvents, getSpeaking, getConferences, getWards } from "../lib/data";
-import { formatLong, formatRange, groupByDate } from "../lib/dates";
+import { chipParts, formatLong, formatRange, groupByDate } from "../lib/dates";
 
 const site = getSite();
 const events = getEvents();
@@ -12,111 +12,152 @@ const wards = getWards();
 ---
 
 <Base>
-  <h1>{site.name}</h1>
-  {site.tagline && <p class="lede">{site.tagline}</p>}
-  {site.announcement && <div class="announcement">{site.announcement}</div>}
-
-  <Timeline count={1} empty="" showPast={false}>
-    <a class="announcement" data-date="2026-11-29" href="/ysa" style="display:block;color:inherit;text-decoration:none">
-      <strong>Spokane River YSA Ward:</strong> your stake presidency would love to get to know you before ward
-      conference on Sunday, November 29. <span style="color:var(--accent);text-decoration:underline">Share a little about yourself →</span>
-    </a>
-  </Timeline>
-
-  <h2>Coming up</h2>
-  <Timeline count={events.length} empty="No upcoming events posted yet." limit={4} showPast={false}>
-    {
-      events.map((e) => (
-        <article class="card" data-date={e.date} data-end={e.endDate}>
-          <p class="date-label">
-            {formatRange(e.date, e.endDate)}
-            {e.time && ` · ${e.time}`}
-          </p>
-          <h3>{e.title}</h3>
-          {e.location && <p class="muted">{e.location}</p>}
-        </article>
-      ))
-    }
-  </Timeline>
-  <p>
-    <a href="https://calendar.churchofjesuschrist.org" target="_blank" rel="noopener">Full calendar →</a>
-  </p>
-
-  <div class="grid" style="margin-top: 32px">
-    <section class="card">
-      <h3>High council speakers</h3>
-      <Timeline count={speakingSundays.length} empty="No speaking assignments posted yet." limit={1} showPast={false}>
-        {
-          speakingSundays.map((g) => (
-            <div data-date={g.date}>
-              <p class="date-label">{formatLong(g.date)}</p>
-              <ul>
-                {g.items.map((a) => (
-                  <li>
-                    {a.ward}: {a.speakers.length > 0 ? a.speakers.join(", ") : <em>{a.notes}</em>}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
-        }
-      </Timeline>
-      <p><a href="/speaking">All speaking assignments →</a></p>
-    </section>
-
-    <section class="card">
-      <h3>Stake conference</h3>
-      <Timeline count={conferences.length} empty="Next stake conference not posted yet." limit={1} showPast={false}>
-        {
-          conferences.map((c) => (
-            <div data-date={c.date} data-end={c.endDate}>
-              <p class="date-label">{formatRange(c.date, c.endDate)}</p>
-              <p style="margin:0">{c.name}</p>
-              {c.theme && <p class="muted" style="margin:0">{c.theme}</p>}
-            </div>
-          ))
-        }
-      </Timeline>
-      <p><a href="/stake-conference">Sessions and assignments →</a></p>
-    </section>
+  <div class="page-head">
+    <h1>Welcome to the {site.name}</h1>
+    {site.tagline && <p class="lede">{site.tagline}</p>}
+    <ul class="pills">
+      <li><a href="/speaking">Speaking assignments</a></li>
+      <li><a href="/ward-conferences">Ward conferences</a></li>
+      <li>
+        <a href="https://calendar.churchofjesuschrist.org" target="_blank" rel="noopener">
+          Church calendar
+          <svg class="ext" viewBox="0 0 16 16" aria-label="(opens in a new tab)">
+            <path d="M6 3h7v7M13 3 4 12" fill="none" stroke="currentColor" stroke-width="1.6" />
+          </svg>
+        </a>
+      </li>
+    </ul>
   </div>
+
+  <div class="stack">
+    {site.announcement && <div class="announcement">{site.announcement}</div>}
+    <Timeline count={1} empty="" showPast={false}>
+      <a class="callout" data-date="2026-11-29" href="/ysa">
+        <strong>Spokane River YSA Ward:</strong> your stake presidency would love to get to know you
+        before ward conference on Sunday, November 29.{" "}
+        <span class="go">Share a little about yourself →</span>
+      </a>
+    </Timeline>
+  </div>
+
+  <section class="section" aria-labelledby="speakers-heading">
+    <div class="section-head">
+      <h2 id="speakers-heading">Next speaking Sunday</h2>
+      <a href="/speaking">All Sundays →</a>
+    </div>
+    <Timeline
+      count={speakingSundays.length}
+      empty="No speaking assignments posted yet."
+      limit={1}
+      showPast={false}
+    >
+      {
+        speakingSundays.map((g) => (
+          <div data-date={g.date}>
+            <p class="date-label">{formatLong(g.date)}</p>
+            <ul class="rows">
+              {g.items.map((a) => (
+                <li>
+                  <span class="term">{a.ward}</span>
+                  <span class="detail">
+                    {a.speakers.length > 0 ? a.speakers.join(", ") : <em class="muted">{a.notes}</em>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </Timeline>
+  </section>
+
+  <section class="section" aria-labelledby="coming-heading">
+    <div class="section-head">
+      <h2 id="coming-heading">Coming up</h2>
+      <a href="https://calendar.churchofjesuschrist.org" target="_blank" rel="noopener">Full calendar →</a>
+    </div>
+    <Timeline
+      count={events.length}
+      empty="Nothing posted here yet. See the Church calendar for stake and ward events."
+      limit={4}
+      showPast={false}
+      list="dated"
+      asList
+    >
+      {
+        events.map((e) => {
+          const chip = chipParts(e.date);
+          return (
+            <li data-date={e.date} data-end={e.endDate}>
+              <span class="chip" aria-hidden="true">
+                <span class="chip-month">{chip.month}</span>
+                <span class="chip-day">{chip.day}</span>
+              </span>
+              <div class="body">
+                <h3>{e.title}</h3>
+                <p class="sub">{formatRange(e.date, e.endDate)}{e.time && ` · ${e.time}`}</p>
+                {e.location && <p class="sub">{e.location}</p>}
+              </div>
+            </li>
+          );
+        })
+      }
+    </Timeline>
+  </section>
+
+  {
+    conferences.length > 0 && (
+      <section class="section" aria-labelledby="stake-conf-heading">
+        <div class="section-head">
+          <h2 id="stake-conf-heading">Stake conference</h2>
+          <a href="/stake-conference">Sessions →</a>
+        </div>
+        <Timeline
+          count={conferences.length}
+          empty="The next stake conference hasn't been posted yet."
+          limit={1}
+          showPast={false}
+        >
+          {conferences.map((c) => (
+            <div class="panel" data-date={c.date} data-end={c.endDate}>
+              <p class="date-label">{formatRange(c.date, c.endDate)}</p>
+              <h3>{c.name}</h3>
+              {c.theme && <p class="muted" style="margin:4px 0 0">{c.theme}</p>}
+            </div>
+          ))}
+        </Timeline>
+      </section>
+    )
+  }
 
   {
     wards.length > 0 && (
-      <>
-        <h2>Wards</h2>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Ward</th>
-                <th>Sacrament meeting</th>
-                <th>Building</th>
-              </tr>
-            </thead>
-            <tbody>
-              {wards.map((w) => (
-                <tr>
-                  <td>{w.name}</td>
-                  <td>{w.meetingTime}</td>
-                  <td>
-                    {w.building}
-                    {w.address && <div class="muted">{w.address}</div>}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <section class="section" aria-labelledby="wards-heading">
+        <div class="section-head">
+          <h2 id="wards-heading">Wards</h2>
         </div>
-      </>
+        <ul class="rows">
+          {wards.map((w) => (
+            <li>
+              <span class="detail">{w.name}</span>
+              <span class="term">
+                {[w.meetingTime, w.building].filter(Boolean).join(" · ")}
+                {w.address && <span class="note">{w.address}</span>}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
     )
   }
 
   {
     site.stakeCenter?.address && (
-      <>
-        <h2>Stake center</h2>
-        <p>
+      <section class="section" aria-labelledby="center-heading">
+        <div class="section-head">
+          <h2 id="center-heading">Stake center</h2>
+        </div>
+        <p style="margin:0">
           {site.stakeCenter.name && (
             <>
               {site.stakeCenter.name}
@@ -125,7 +166,7 @@ const wards = getWards();
           )}
           {site.stakeCenter.address}
         </p>
-      </>
+      </section>
     )
   }
 </Base>

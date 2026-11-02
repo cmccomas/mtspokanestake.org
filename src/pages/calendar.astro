@@ -13,7 +13,7 @@ const events = getEvents();
   <Timeline count={events.length} empty="No upcoming events posted yet." pastLabel="Past events">
     {
       events.map((e) => (
-        <article class="card" data-date={e.date} data-end={e.endDate}>
+        <article class="panel" data-date={e.date} data-end={e.endDate}>
           <p class="date-label">
             {formatRange(e.date, e.endDate)}
             {e.time && ` · ${e.time}`}

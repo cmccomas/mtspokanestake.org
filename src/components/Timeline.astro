@@ -7,18 +7,31 @@ interface Props {
   pastLabel?: string;
   limit?: number;
   showPast?: boolean;
+  // Layout class for the list: "stack" (spaced blocks), "dated" or "rows" (hairline lists).
+  list?: string;
+  // Use ul/li markup, for "dated" and "rows" lists.
+  asList?: boolean;
 }
-const { count, empty, pastLabel = "Past", limit, showPast = true } = Astro.props;
+const {
+  count,
+  empty,
+  pastLabel = "Past",
+  limit,
+  showPast = true,
+  list = "stack",
+  asList = false,
+} = Astro.props;
+const Tag = asList ? "ul" : "div";
 ---
 
 <section data-timeline data-limit={limit}>
-  <div class="stack" data-upcoming><slot /></div>
-  <p class="empty" data-empty hidden={count > 0}>{empty}</p>
+  <Tag class={list} data-upcoming><slot /></Tag>
+  {empty && <p class="empty" data-empty hidden={count > 0}>{empty}</p>}
   {
     showPast && (
       <details class="past" data-past hidden>
         <summary>{pastLabel}</summary>
-        <div class="stack" data-past-list />
+        <Tag class={list} data-past-list />
       </details>
     )
   }
