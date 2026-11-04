@@ -1,8 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-
-// Tally form "YSA Ward Conference: Get to Know You" (responses are in Carson's Tally account).
-const formId = "9NBvyG";
+import TallyForm from "../components/TallyForm.astro";
 ---
 
 <Base
@@ -13,29 +11,5 @@ const formId = "9NBvyG";
     <p class="eyebrow">Spokane River YSA Ward</p>
     <h1>Get to know you</h1>
   </div>
-  <iframe
-    data-tally-src={`https://tally.so/embed/${formId}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
-    loading="lazy"
-    width="100%"
-    height="700"
-    frameborder="0"
-    marginheight="0"
-    marginwidth="0"
-    title="YSA Ward Conference: Get to Know You"></iframe>
-  <noscript>
-    <p><a href={`https://tally.so/r/${formId}`}>Open the form</a></p>
-  </noscript>
-  <script is:inline async src="https://tally.so/widgets/embed.js"></script>
-  <script is:inline>
-    // embed.js may load before or after this runs; either way, ask it to load the iframes.
-    function loadTally() {
-      if (window.Tally) window.Tally.loadEmbeds();
-      else
-        document.querySelectorAll("iframe[data-tally-src]:not([src])").forEach(function (f) {
-          f.src = f.dataset.tallySrc;
-        });
-    }
-    if (document.readyState === "complete") loadTally();
-    else window.addEventListener("load", loadTally);
-  </script>
+  <TallyForm formId="9NBvyG" title="YSA Ward Conference: Get to Know You" />
 </Base>

@@ -1,0 +1,34 @@
+---
+// Embeds a published Tally form. Responses go to Carson's Tally account.
+interface Props {
+  formId: string;
+  title: string;
+}
+const { formId, title } = Astro.props;
+---
+
+<iframe
+  data-tally-src={`https://tally.so/embed/${formId}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
+  loading="lazy"
+  width="100%"
+  height="800"
+  frameborder="0"
+  marginheight="0"
+  marginwidth="0"
+  title={title}></iframe>
+<noscript>
+  <p><a href={`https://tally.so/r/${formId}`}>Open the form</a></p>
+</noscript>
+<script is:inline async src="https://tally.so/widgets/embed.js"></script>
+<script is:inline>
+  // embed.js may load before or after this runs; either way, ask it to load the iframes.
+  function loadTally() {
+    if (window.Tally) window.Tally.loadEmbeds();
+    else
+      document.querySelectorAll("iframe[data-tally-src]:not([src])").forEach(function (f) {
+        f.src = f.dataset.tallySrc;
+      });
+  }
+  if (document.readyState === "complete") loadTally();
+  else window.addEventListener("load", loadTally);
+</script>
